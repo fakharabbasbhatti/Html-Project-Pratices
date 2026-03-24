@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Full CSS Practical</title>
+
+<!-- CSS Styles -->
+<style>
+/* 1. Basic Selectors */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+h1, h2, h3 {
+    color: #1a73e8;
+}
+
+/* Class Selector */
+.highlight {
+    background-color: yellow;
+    font-weight: bold;
+}
+
+/* ID Selector */
+#unique {
+    color: red;
+    font-size: 20px;
+}
+
+/* 2. Text & Font Styling */
+p {
+    line-height: 1.6;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+}
+
+/* 3. Box Model */
+div.box {
+    width: 200px;
+    height: 100px;
+    padding: 10px;
+    margin: 20px;
+    border: 2px solid #333;
+    background-color: #fff;
+}
+
+/* 4. Colors & Backgrounds */
+.color-sample {
+    background-color: #ff6347;
+    color: white;
+    padding: 10px;
+    margin: 5px 0;
+}
+
+/* 5. Borders & Shadows */
+.border-shadow {
+    border: 2px dashed #1a73e8;
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.2);
+    padding: 10px;
+}
+
+/* 6. Flexbox */
+.flex-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #e0e0e0;
+    padding: 20px;
+}
+
+/* 7. Grid */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    background-color: #d1c4e9;
+    padding: 10px;
+}
+
+/* 8. Pseudo-classes & Pseudo-elements */
+a:hover {
+    color: orange;
+    text-decoration: underline;
+}
+
+p::first-letter {
+    font-size: 2em;
+    color: #1a73e8;
+}
+
+/* 9. Transitions & Animations */
+button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #1a73e8;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0b59d0;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+.animated {
+    display: inline-block;
+    animation: bounce 2s infinite;
+}
+
+/* 10. Responsive / Media Queries */
+@media (max-width: 600px) {
+    .flex-container {
+        flex-direction: column;
+    }
+    .grid-container {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>Full CSS Practical Example</h1>
+</header>
+
+<main>
+
+<section>
+<h2>Selectors & Text Styling</h2>
+<p>This is a <span class="highlight">highlighted</span> text using a class selector.</p>
+<p id="unique">This is an ID selector example.</p>
+</section>
+
+<section>
+<h2>Box Model & Colors</h2>
+<div class="box">Box Model Example</div>
+<div class="color-sample">Background Color Example</div>
+<div class="border-shadow">Border & Shadow Example</div>
+</section>
+
+<section>
+<h2>Flexbox Example</h2>
+<div class="flex-container">
+    <div>Flex 1</div>
+    <div>Flex 2</div>
+    <div>Flex 3</div>
+</div>
+</section>
+
+<section>
+<h2>Grid Example</h2>
+<div class="grid-container">
+    <div>Grid 1</div>
+    <div>Grid 2</div>
+    <div>Grid 3</div>
+</div>
+</section>
+
+<section>
+<h2>Pseudo-classes & Pseudo-elements</h2>
+<a href="#">Hover me!</a>
+<p>Look at the <span class="animated">first letter</span> animation and pseudo-element effect.</p>
+</section>
+
+<section>
+<h2>Buttons with Transitions</h2>
+<button>Click Me!</button>
+</section>
+
+<section>
+<h2>Responsive Test</h2>
+<p>Resize the window to see Flexbox and Grid adapt to small screens.</p>
+</section>
+
+</main>
+
+<footer>
+<p>© 2026 Full CSS Practical</p>
+</footer>
+
+</body>
+</html>
