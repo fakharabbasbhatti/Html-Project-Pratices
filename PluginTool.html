@@ -2,77 +2,151 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Plugin Tool</title>
+  <title>Advanced Plugin Tool</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #f4f4f4;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #667eea, #764ba2);
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
+      margin: 0;
     }
 
     .container {
       background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      width: 300px;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      width: 350px;
       text-align: center;
+      animation: fadeIn 0.6s ease-in-out;
+    }
+
+    h2 {
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    p {
+      font-size: 14px;
+      color: #777;
     }
 
     input {
-      width: 90%;
-      padding: 10px;
-      margin: 10px 0;
-      border-radius: 5px;
+      width: 100%;
+      padding: 12px;
+      margin: 15px 0;
+      border-radius: 8px;
       border: 1px solid #ccc;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    input:focus {
+      border-color: #667eea;
+      box-shadow: 0 0 5px rgba(102,126,234,0.5);
+    }
+
+    .buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
     }
 
     button {
-      padding: 10px 15px;
+      flex: 1;
+      padding: 10px;
       border: none;
-      background: #007bff;
-      color: white;
-      border-radius: 5px;
+      border-radius: 8px;
       cursor: pointer;
+      color: white;
+      font-weight: bold;
+      transition: 0.3s;
     }
 
+    .btn1 { background: #28a745; }
+    .btn2 { background: #007bff; }
+    .btn3 { background: #ff5722; }
+
     button:hover {
-      background: #0056b3;
+      transform: scale(1.05);
+      opacity: 0.9;
     }
 
     .result {
-      margin-top: 15px;
+      margin-top: 20px;
+      padding: 10px;
+      border-radius: 8px;
+      background: #f1f1f1;
+      min-height: 40px;
       font-weight: bold;
+      color: #333;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
 
 <div class="container">
-  <h2>Simple Plugin Tool</h2>
-  <input type="text" id="inputText" placeholder="Enter text">
-  <button onclick="processText()">Process</button>
-  <div class="result" id="result"></div>
+  <h2>✨ Smart Plugin Tool</h2>
+  <p>Enter text and apply different smart functions</p>
+
+  <input type="text" id="inputText" placeholder="Type something...">
+
+  <div class="buttons">
+    <button class="btn1" onclick="toUpper()">UPPERCASE</button>
+    <button class="btn2" onclick="toLower()">lowercase</button>
+    <button class="btn3" onclick="reverseText()">Reverse</button>
+  </div>
+
+  <div class="buttons" style="margin-top:10px;">
+    <button class="btn2" onclick="countText()">Count</button>
+    <button class="btn1" onclick="clearText()">Clear</button>
+  </div>
+
+  <div class="result" id="result">Result will appear here...</div>
 </div>
 
 <script>
-  function processText() {
-    let text = document.getElementById('inputText').value;
+  function getInput() {
+    return document.getElementById('inputText').value;
+  }
 
-    if(text === "") {
-      document.getElementById('result').innerText = "Please enter something";
-      return;
-    }
+  function showResult(text) {
+    document.getElementById('result').innerText = text;
+  }
 
-    // Example plugin feature: convert to uppercase + count characters
-    let upper = text.toUpperCase();
-    let length = text.length;
+  function toUpper() {
+    let text = getInput();
+    showResult(text.toUpperCase());
+  }
 
-    document.getElementById('result').innerText = 
-      "Uppercase: " + upper + " | Length: " + length;
+  function toLower() {
+    let text = getInput();
+    showResult(text.toLowerCase());
+  }
+
+  function reverseText() {
+    let text = getInput();
+    let reversed = text.split('').reverse().join('');
+    showResult(reversed);
+  }
+
+  function countText() {
+    let text = getInput();
+    showResult("Characters: " + text.length);
+  }
+
+  function clearText() {
+    document.getElementById('inputText').value = "";
+    showResult("Cleared!");
   }
 </script>
 
