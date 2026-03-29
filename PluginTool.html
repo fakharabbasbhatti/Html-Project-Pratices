@@ -2,153 +2,211 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Advanced Plugin Tool</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pro Smart Plugin Tool</title>
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
+    :root{
+      --bg1:#667eea; --bg2:#764ba2; --card:#ffffff; --text:#222; --muted:#777; --accent:#4f46e5;
     }
-
-    .container {
-      background: white;
-      padding: 25px;
-      border-radius: 15px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-      width: 350px;
-      text-align: center;
-      animation: fadeIn 0.6s ease-in-out;
+    body.dark{
+      --bg1:#0f172a; --bg2:#1e293b; --card:#111827; --text:#e5e7eb; --muted:#9ca3af; --accent:#22c55e;
     }
-
-    h2 {
-      margin-bottom: 10px;
-      color: #333;
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family:Segoe UI,system-ui,Arial,sans-serif; color:var(--text);
+      background:linear-gradient(135deg,var(--bg1),var(--bg2));
+      min-height:100vh; display:flex; align-items:center; justify-content:center; padding:20px;
     }
-
-    p {
-      font-size: 14px;
-      color: #777;
+    .app{
+      width:100%; max-width:720px; background:var(--card); border-radius:18px; box-shadow:0 20px 40px rgba(0,0,0,.25); overflow:hidden;
+      animation:fade .5s ease;
     }
-
-    input {
-      width: 100%;
-      padding: 12px;
-      margin: 15px 0;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      outline: none;
-      transition: 0.3s;
+    header{
+      display:flex; align-items:center; justify-content:space-between; padding:16px 18px; border-bottom:1px solid rgba(0,0,0,.08);
     }
-
-    input:focus {
-      border-color: #667eea;
-      box-shadow: 0 0 5px rgba(102,126,234,0.5);
+    .title{font-weight:700; letter-spacing:.3px}
+    .toggle{cursor:pointer; border:none; padding:8px 12px; border-radius:999px; background:var(--accent); color:#fff}
+    .tabs{display:flex; gap:8px; padding:10px; flex-wrap:wrap}
+    .tab{padding:8px 12px; border-radius:999px; background:#e5e7eb; cursor:pointer; font-size:13px}
+    body.dark .tab{background:#1f2937}
+    .tab.active{background:var(--accent); color:#fff}
+    .panel{padding:18px}
+    textarea{
+      width:100%; min-height:120px; resize:vertical; border-radius:12px; border:1px solid #d1d5db; padding:12px; outline:none; font-size:14px;
     }
-
-    .buttons {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      justify-content: center;
+    body.dark textarea{background:#020617; color:var(--text); border-color:#334155}
+    .row{display:flex; gap:10px; flex-wrap:wrap; margin-top:12px}
+    button{
+      border:none; border-radius:10px; padding:10px 12px; cursor:pointer; font-weight:600; background:var(--accent); color:#fff;
     }
-
-    button {
-      flex: 1;
-      padding: 10px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      color: white;
-      font-weight: bold;
-      transition: 0.3s;
+    .ghost{background:transparent; color:var(--text); border:1px solid #d1d5db}
+    body.dark .ghost{border-color:#334155}
+    .result{
+      margin-top:14px; background:#f3f4f6; border-radius:12px; padding:12px; min-height:56px; white-space:pre-wrap;
     }
-
-    .btn1 { background: #28a745; }
-    .btn2 { background: #007bff; }
-    .btn3 { background: #ff5722; }
-
-    button:hover {
-      transform: scale(1.05);
-      opacity: 0.9;
+    body.dark .result{background:#020617}
+    .meta{display:flex; gap:12px; flex-wrap:wrap; color:var(--muted); font-size:12px; margin-top:8px}
+    .history{
+      max-height:180px; overflow:auto; border:1px dashed #d1d5db; border-radius:12px; padding:10px; margin-top:12px;
     }
-
-    .result {
-      margin-top: 20px;
-      padding: 10px;
-      border-radius: 8px;
-      background: #f1f1f1;
-      min-height: 40px;
-      font-weight: bold;
-      color: #333;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    body.dark .history{border-color:#334155}
+    .item{padding:8px; border-bottom:1px solid rgba(0,0,0,.06); font-size:13px}
+    .item:last-child{border-bottom:none}
+    .item b{display:block}
+    .tools{display:flex; gap:8px; flex-wrap:wrap; margin-top:8px}
+    @keyframes fade{from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:translateY(0)}}
   </style>
 </head>
 <body>
+  <div class="app">
+    <header>
+      <div class="title">🚀 Pro Smart Plugin Tool</div>
+      <button class="toggle" onclick="toggleTheme()">Toggle Theme</button>
+    </header>
 
-<div class="container">
-  <h2>✨ Smart Plugin Tool</h2>
-  <p>Enter text and apply different smart functions</p>
+    <div class="tabs">
+      <div class="tab active" data-tab="text">Text Tools</div>
+      <div class="tab" data-tab="format">Formatter</div>
+      <div class="tab" data-tab="analyze">Analyzer</div>
+      <div class="tab" data-tab="history">History</div>
+    </div>
 
-  <input type="text" id="inputText" placeholder="Type something...">
+    <div class="panel" id="panel-text">
+      <textarea id="input" placeholder="Type or paste your text..."></textarea>
+      <div class="row">
+        <button onclick="upper()">UPPERCASE</button>
+        <button onclick="lower()">lowercase</button>
+        <button onclick="reverseTxt()">Reverse</button>
+        <button onclick="copyResult()">Copy</button>
+        <button class="ghost" onclick="clearAll()">Clear</button>
+      </div>
+      <div class="result" id="result">Result will appear here...</div>
+      <div class="meta" id="meta"></div>
+    </div>
 
-  <div class="buttons">
-    <button class="btn1" onclick="toUpper()">UPPERCASE</button>
-    <button class="btn2" onclick="toLower()">lowercase</button>
-    <button class="btn3" onclick="reverseText()">Reverse</button>
+    <div class="panel" id="panel-format" style="display:none">
+      <textarea id="formatInput" placeholder="Enter text to format..."></textarea>
+      <div class="row">
+        <button onclick="removeSpaces()">Remove Extra Spaces</button>
+        <button onclick="capitalize()">Capitalize Words</button>
+        <button onclick="snake()">snake_case</button>
+        <button onclick="kebab()">kebab-case</button>
+      </div>
+      <div class="result" id="formatResult"></div>
+    </div>
+
+    <div class="panel" id="panel-analyze" style="display:none">
+      <textarea id="anInput" placeholder="Analyze your text..."></textarea>
+      <div class="row">
+        <button onclick="analyze()">Analyze</button>
+      </div>
+      <div class="result" id="anResult"></div>
+    </div>
+
+    <div class="panel" id="panel-history" style="display:none">
+      <div class="tools">
+        <button onclick="clearHistory()">Clear History</button>
+      </div>
+      <div class="history" id="historyBox"></div>
+    </div>
   </div>
 
-  <div class="buttons" style="margin-top:10px;">
-    <button class="btn2" onclick="countText()">Count</button>
-    <button class="btn1" onclick="clearText()">Clear</button>
-  </div>
+  <script>
+    const $ = s=>document.querySelector(s);
+    const $$ = s=>document.querySelectorAll(s);
 
-  <div class="result" id="result">Result will appear here...</div>
-</div>
+    // Tabs
+    $$('.tab').forEach(t=>t.onclick=()=>{
+      $$('.tab').forEach(x=>x.classList.remove('active'));
+      t.classList.add('active');
+      ['text','format','analyze','history'].forEach(k=>{
+        $('#panel-'+k).style.display = (t.dataset.tab===k)?'block':'none';
+      });
+      if(t.dataset.tab==='history') renderHistory();
+    });
 
-<script>
-  function getInput() {
-    return document.getElementById('inputText').value;
-  }
+    // Theme
+    function toggleTheme(){
+      document.body.classList.toggle('dark');
+      localStorage.setItem('theme', document.body.classList.contains('dark')?'dark':'light');
+    }
+    (function initTheme(){
+      const t = localStorage.getItem('theme');
+      if(t==='dark') document.body.classList.add('dark');
+    })();
 
-  function showResult(text) {
-    document.getElementById('result').innerText = text;
-  }
+    // Core helpers
+    function setResult(text){
+      $('#result').innerText = text;
+      updateMeta();
+      pushHistory('Text Tool', text);
+    }
+    function getInput(){ return $('#input').value || ''; }
+    function updateMeta(){
+      const txt = $('#result').innerText || '';
+      const words = txt.trim()? txt.trim().split(/\s+/).length : 0;
+      $('#meta').innerText = `Chars: ${txt.length} | Words: ${words}`;
+    }
 
-  function toUpper() {
-    let text = getInput();
-    showResult(text.toUpperCase());
-  }
+    // Text tools
+    function upper(){ setResult(getInput().toUpperCase()); }
+    function lower(){ setResult(getInput().toLowerCase()); }
+    function reverseTxt(){ setResult(getInput().split('').reverse().join('')); }
+    function copyResult(){
+      navigator.clipboard.writeText($('#result').innerText || '');
+      alert('Copied!');
+    }
+    function clearAll(){ $('#input').value=''; setResult(''); }
 
-  function toLower() {
-    let text = getInput();
-    showResult(text.toLowerCase());
-  }
+    // Formatter
+    function removeSpaces(){
+      const t = $('#formatInput').value.replace(/\s+/g,' ').trim();
+      $('#formatResult').innerText = t; pushHistory('Formatter', t);
+    }
+    function capitalize(){
+      const t = $('#formatInput').value.replace(/\b\w/g,c=>c.toUpperCase());
+      $('#formatResult').innerText = t; pushHistory('Formatter', t);
+    }
+    function snake(){
+      const t = $('#formatInput').value.trim().toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'');
+      $('#formatResult').innerText = t; pushHistory('Formatter', t);
+    }
+    function kebab(){
+      const t = $('#formatInput').value.trim().toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+      $('#formatResult').innerText = t; pushHistory('Formatter', t);
+    }
 
-  function reverseText() {
-    let text = getInput();
-    let reversed = text.split('').reverse().join('');
-    showResult(reversed);
-  }
+    // Analyzer
+    function analyze(){
+      const t = $('#anInput').value;
+      const chars = t.length;
+      const words = t.trim()? t.trim().split(/\s+/).length : 0;
+      const lines = t? t.split(/\n/).length : 0;
+      const vowels = (t.match(/[aeiou]/gi)||[]).length;
+      const res = `Characters: ${chars}\nWords: ${words}\nLines: ${lines}\nVowels: ${vowels}`;
+      $('#anResult').innerText = res; pushHistory('Analyzer', res);
+    }
 
-  function countText() {
-    let text = getInput();
-    showResult("Characters: " + text.length);
-  }
-
-  function clearText() {
-    document.getElementById('inputText').value = "";
-    showResult("Cleared!");
-  }
-</script>
-
+    // History (localStorage)
+    const KEY = 'plugin_history_v1';
+    function getHistory(){ return JSON.parse(localStorage.getItem(KEY)||'[]'); }
+    function pushHistory(type, output){
+      if(!output) return;
+      const h = getHistory();
+      h.unshift({type, output, time: new Date().toLocaleString()});
+      localStorage.setItem(KEY, JSON.stringify(h.slice(0,50)));
+    }
+    function renderHistory(){
+      const box = $('#historyBox'); box.innerHTML='';
+      const h = getHistory();
+      if(!h.length){ box.innerHTML = '<i>No history yet</i>'; return; }
+      h.forEach(i=>{
+        const d = document.createElement('div'); d.className='item';
+        d.innerHTML = `<b>${i.type}</b>${i.output}<div style="font-size:11px;color:gray">${i.time}</div>`;
+        box.appendChild(d);
+      });
+    }
+    function clearHistory(){ localStorage.removeItem(KEY); renderHistory(); }
+  </script>
 </body>
 </html>
